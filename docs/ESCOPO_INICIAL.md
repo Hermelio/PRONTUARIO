@@ -100,3 +100,73 @@ Historico armazenado:
 - Profissional responsavel
 - Paciente
 - Agendamento vinculado
+
+## Modulo de Prontuario Eletronico
+
+Cada paciente deve possuir um historico clinico completo com evolucoes.
+
+Campos da evolucao:
+
+- Data
+- Hora
+- Profissional
+- Descricao do atendimento
+- Procedimentos realizados
+- Conduta
+- Observacoes
+
+Funcionalidades:
+
+- Tela especifica de prontuario por paciente
+- Botao para nova evolucao
+- Historico de evolucoes
+- Pesquisa por texto
+- Filtros por profissional e periodo
+- Impressao
+- Base para exportacao PDF
+
+## Modulo de Avaliacoes
+
+O sistema deve permitir avaliacoes clinicas especificas por especialidade.
+
+Tipos iniciais:
+
+- Avaliacao ortopedica
+- Avaliacao gerontologica
+- Avaliacao cardiorrespiratoria
+- Avaliacao neurologica
+- Avaliacao personalizada
+
+Campos e indicadores previstos:
+
+- Dor
+- Amplitude de movimento
+- Forca muscular
+- Escalas funcionais
+- Mobilidade
+- Equilibrio
+- Cognicao
+- Independencia funcional
+- Saturacao
+- Frequencia cardiaca
+- Frequencia respiratoria
+- Escalas respiratorias
+- Escalas neurologicas
+- Sensibilidade
+
+## Evolucao de Indicadores e Comparativos
+
+As avaliacoes devem permitir comparacao ao longo do tempo, por exemplo:
+
+- Avaliacao inicial
+- Reaplicacao apos 30 dias
+- Reaplicacao apos 60 dias
+- Reaplicacao apos 90 dias
+
+Comparativos gerados:
+
+- Evolucao percentual
+- Comparacao entre avaliacoes
+- Indicadores de melhora
+- Indicadores de piora
+- Base para graficos de linha, barras e historico temporal

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Prontuario de {{ patient.full_name }}{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4 reveal is-visible">
+    <div>
+      <span class="eyebrow mb-3"><i class="bi bi-file-earmark-medical"></i> Prontuario eletronico</span>
+      <h1 class="display-6 fw-bold mb-1">{{ patient.full_name }}</h1>
+      <p class="text-muted-app mb-0">Historico clinico, evolucoes, filtros e base para impressao/PDF.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{{ new_evolution_url }}" class="btn btn-primary px-4"><i class="bi bi-plus-lg me-2"></i>Nova evolucao</a>
+      <button class="btn btn-light border px-4" onclick="window.print()"><i class="bi bi-printer me-2"></i>Imprimir</button>
+      <button class="btn btn-light border px-4" disabled><i class="bi bi-filetype-pdf me-2"></i>PDF</button>
+    </div>
+  </div>
+
+  <form method="get" class="soft-card p-4 mb-4 reveal is-visible">
+    <div class="row g-3 align-items-end">
+      <div class="col-lg-4">{{ form.q.label_tag }}{{ form.q }}</div>
+      <div class="col-lg-3">{{ form.professional.label_tag }}{{ form.professional }}</div>
+      <div class="col-lg-2">{{ form.start_date.label_tag }}{{ form.start_date }}</div>
+      <div class="col-lg-2">{{ form.end_date.label_tag }}{{ form.end_date }}</div>
+      <div class="col-lg-1 d-grid"><button class="btn btn-primary" type="submit">Filtrar</button></div>
+    </div>
+  </form>
+
+  <div class="row g-4">
+    {% for evolution in evolutions %}
+      <div class="col-12">
+        <article class="soft-card p-4 reveal is-visible">
+          <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3">
+            <div>
+              <h2 class="h5 fw-bold mb-1">{{ evolution.date|date:"d/m/Y" }} as {{ evolution.time|time:"H:i" }}</h2>
+              <div class="text-muted-app small">{{ evolution.professional.full_name }}</div>
+            </div>
+            <span class="badge rounded-pill text-bg-primary align-self-md-start">Evolucao</span>
+          </div>
+          <p class="mb-3">{{ evolution.service_description }}</p>
+          {% if evolution.procedures_performed %}
+            <h3 class="h6 fw-bold">Procedimentos realizados</h3>
+            <p class="text-muted-app">{{ evolution.procedures_performed }}</p>
+          {% endif %}
+          {% if evolution.conduct %}
+            <h3 class="h6 fw-bold">Conduta</h3>
+            <p class="text-muted-app">{{ evolution.conduct }}</p>
+          {% endif %}
+          {% if evolution.notes %}
+            <h3 class="h6 fw-bold">Observacoes</h3>
+            <p class="text-muted-app mb-0">{{ evolution.notes }}</p>
+          {% endif %}
+        </article>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="soft-card p-5 text-center">
+          <h2 class="h4 fw-bold">Nenhuma evolucao encontrada</h2>
+          <p class="text-muted-app mb-0">Crie a primeira evolucao clinica para este paciente.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

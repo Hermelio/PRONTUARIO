@@ -27,6 +27,8 @@ Endpoints iniciais:
 - Pacientes: dados cadastrais, endereco, geolocalizacao, dados clinicos, responsavel e profissional de referencia.
 - Agenda: agendamento por paciente/profissional, horarios, status e recorrencias.
 - Check-in/Check-out: validacao por GPS, raio permitido, distancia e duracao do atendimento.
+- Prontuario Eletronico: evolucoes por paciente, historico, pesquisa, filtros e impressao.
+- Avaliacoes Clinicas: modelos por especialidade, formularios personalizados e metricas comparativas.
 
 O escopo inicial esta documentado em `docs/ESCOPO_INICIAL.md`.
 

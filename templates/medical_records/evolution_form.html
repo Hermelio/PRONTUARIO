@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Nova evolucao - {{ patient.full_name }}{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="soft-card p-4 p-lg-5 reveal is-visible">
+        <span class="eyebrow mb-3"><i class="bi bi-plus-circle"></i> Nova evolucao</span>
+        <h1 class="display-6 fw-bold mb-4">{{ patient.full_name }}</h1>
+        <form method="post">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-md-6">{{ form.professional.label_tag }}{{ form.professional }}</div>
+            <div class="col-md-6">{{ form.appointment.label_tag }}{{ form.appointment }}</div>
+            <div class="col-md-6">{{ form.date.label_tag }}{{ form.date }}</div>
+            <div class="col-md-6">{{ form.time.label_tag }}{{ form.time }}</div>
+            <div class="col-12">{{ form.service_description.label_tag }}{{ form.service_description }}</div>
+            <div class="col-12">{{ form.procedures_performed.label_tag }}{{ form.procedures_performed }}</div>
+            <div class="col-12">{{ form.conduct.label_tag }}{{ form.conduct }}</div>
+            <div class="col-12">{{ form.notes.label_tag }}{{ form.notes }}</div>
+          </div>
+          <div class="d-flex flex-wrap gap-2 mt-4">
+            <button type="submit" class="btn btn-primary px-5">Salvar evolucao</button>
+            <a href="{% url 'medical_records:patient_record' patient.pk %}" class="btn btn-light border px-4">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
