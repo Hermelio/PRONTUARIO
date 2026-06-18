@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     "apps.assessments",
     "apps.incidents",
     "apps.patient_documents",
+    "apps.finance",
+    "apps.dashboard",
+    "apps.access_control",
 ]
 
 CHECKIN_DEFAULT_RADIUS_METERS = int(os.environ.get("CHECKIN_DEFAULT_RADIUS_METERS", "100"))

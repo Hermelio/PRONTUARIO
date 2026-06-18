@@ -5,6 +5,10 @@ from apps.professionals.models import Professional
 
 
 class Patient(models.Model):
+    class Status(models.TextChoices):
+        ACTIVE = "active", "Ativo"
+        INACTIVE = "inactive", "Inativo"
+
     class Sex(models.TextChoices):
         FEMALE = "F", "Feminino"
         MALE = "M", "Masculino"
@@ -17,6 +21,7 @@ class Patient(models.Model):
     sex = models.CharField("sexo", max_length=1, choices=Sex.choices, default=Sex.NOT_INFORMED)
     phone = models.CharField("telefone", max_length=30, blank=True)
     email = models.EmailField("e-mail", blank=True)
+    status = models.CharField("status", max_length=20, choices=Status.choices, default=Status.ACTIVE)
 
     zip_code = models.CharField("CEP", max_length=12, blank=True)
     street = models.CharField("logradouro", max_length=255, blank=True)

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - PRONTUARIO{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-5 reveal is-visible">
+    <div>
+      <span class="eyebrow mb-3"><i class="bi bi-speedometer2"></i> Dashboard executivo</span>
+      <h1 class="display-6 fw-bold mb-1">Indicadores gerais da operacao</h1>
+      <p class="text-muted-app mb-0">Pacientes, profissionais, atendimentos, financeiro, avaliacoes e mapa operacional.</p>
+    </div>
+    <a href="/admin/" class="btn btn-primary px-4">Administrar dados</a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-xl-3">
+      <div class="soft-card p-4 h-100">
+        <span class="icon-box mb-3"><i class="bi bi-person-heart"></i></span>
+        <h2 class="h5 fw-bold">Pacientes</h2>
+        <div class="display-6 fw-bold">{{ summary.patients.total }}</div>
+        <p class="text-muted-app mb-0">Ativos: {{ summary.patients.active }} · Inativos: {{ summary.patients.inactive }} · Novos: {{ summary.patients.new }}</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="soft-card p-4 h-100">
+        <span class="icon-box mb-3"><i class="bi bi-person-badge"></i></span>
+        <h2 class="h5 fw-bold">Profissionais</h2>
+        <div class="display-6 fw-bold">{{ summary.professionals.total }}</div>
+        <p class="text-muted-app mb-0">Ativos: {{ summary.professionals.active }} · Em atendimento: {{ summary.professionals.in_attendance }}</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="soft-card p-4 h-100">
+        <span class="icon-box mb-3"><i class="bi bi-calendar-check"></i></span>
+        <h2 class="h5 fw-bold">Atendimentos</h2>
+        <div class="display-6 fw-bold">{{ summary.appointments.today }}</div>
+        <p class="text-muted-app mb-0">Semana: {{ summary.appointments.week }} · Mes: {{ summary.appointments.month }} · Pendentes: {{ summary.appointments.pending }}</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="soft-card p-4 h-100">
+        <span class="icon-box mb-3"><i class="bi bi-cash-coin"></i></span>
+        <h2 class="h5 fw-bold">Financeiro</h2>
+        <div class="display-6 fw-bold">R$ {{ summary.finance.monthly_revenue }}</div>
+        <p class="text-muted-app mb-0">Ano: R$ {{ summary.finance.annual_revenue }} · A receber: R$ {{ summary.finance.receivable }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mt-1">
+    <div class="col-lg-8">
+      <div class="dashboard-panel p-4 p-lg-5 h-100">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+          <div>
+            <div class="text-uppercase small text-info fw-bold">Operacao assistencial</div>
+            <h2 class="h4 text-white mb-0">Resumo do mes</h2>
+          </div>
+          <span class="badge rounded-pill text-bg-light">Tempo real</span>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="p-3 rounded-4 bg-white bg-opacity-10">
+              <div class="text-info small fw-bold">Concluidos</div>
+              <div class="h2 text-white mb-0">{{ summary.appointments.completed }}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 rounded-4 bg-white bg-opacity-10">
+              <div class="text-info small fw-bold">Valores pagos</div>
+              <div class="h2 text-white mb-0">R$ {{ summary.finance.paid }}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 rounded-4 bg-white bg-opacity-10">
+              <div class="text-info small fw-bold">Indicadores clinicos</div>
+              <div class="h2 text-white mb-0">{{ summary.assessments.clinical_indicators }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="mini-chart mt-4" aria-hidden="true">
+          <span style="height: 45%"></span>
+          <span style="height: 62%"></span>
+          <span style="height: 74%"></span>
+          <span style="height: 58%"></span>
+          <span style="height: 88%"></span>
+          <span style="height: 70%"></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="soft-card p-4 h-100">
+        <span class="icon-box mb-3"><i class="bi bi-map"></i></span>
+        <h2 class="h5 fw-bold">Mapa operacional</h2>
+        <div class="d-grid gap-3 mt-4">
+          <div class="d-flex justify-content-between"><span>Pacientes mapeados</span><strong>{{ summary.map.patients }}</strong></div>
+          <div class="d-flex justify-content-between"><span>Atendimentos do dia</span><strong>{{ summary.map.appointments_today }}</strong></div>
+          <div class="d-flex justify-content-between"><span>Profissionais em atendimento</span><strong>{{ summary.map.professionals_in_attendance }}</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

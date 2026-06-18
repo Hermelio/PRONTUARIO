@@ -13,9 +13,10 @@ class PatientAdmin(admin.ModelAdmin):
         "phone",
         "city",
         "state",
+        "status",
         "assigned_professional",
     )
-    list_filter = ("sex", "state", "city", "assigned_professional")
+    list_filter = ("status", "sex", "state", "city", "assigned_professional")
     search_fields = (
         "full_name",
         "cpf",

@@ -206,3 +206,71 @@ Tipos previstos:
 - Laudos
 - PDFs
 - Fotos
+
+## Modulo Financeiro
+
+Controle de recebimentos:
+
+- Valor do atendimento
+- Quantidade de atendimentos
+- Convenio
+- Particular
+
+Controle de repasses:
+
+- Valor recebido pela empresa
+- Valor devido ao profissional
+- Percentual da empresa
+- Percentual do profissional
+
+Fechamento mensal:
+
+- Periodo de inicio e fim
+- Quantidade de atendimentos realizados
+- Valor total faturado
+- Valor a receber pela empresa
+- Valor a receber pelo profissional
+- Valores pendentes
+
+Relatorios financeiros:
+
+- Por profissional
+- Por paciente
+- Por periodo
+- Por convenio
+- Por especialidade
+
+## Dashboard
+
+Indicadores gerais:
+
+- Pacientes totais, ativos, inativos e novos
+- Profissionais totais, ativos e inativos
+- Atendimentos de hoje, semana, mes, pendentes e concluidos
+- Faturamento mensal e anual
+- Valores a receber e valores pagos
+- Evolucao media dos pacientes
+- Indicadores clinicos
+- Mapa com pacientes cadastrados, atendimentos do dia e profissionais em atendimento
+
+## Controle de Acesso
+
+Perfis:
+
+- Administrador: acesso total
+- Coordenador: gestao de pacientes, profissionais e agenda
+- Profissional: acesso aos proprios pacientes e atendimentos
+- Financeiro: acesso aos modulos financeiros
+
+## Diferenciais Futuros
+
+- Aplicativo mobile Android e iOS
+- Assinatura digital
+- Prescricao eletronica
+- Integracao WhatsApp
+- Integracao Google Agenda
+- Integracao com convenios
+- Notificacoes automaticas
+- Inteligencia Artificial para geracao de resumos clinicos
+- Alertas de pacientes em risco
+- Sugestao automatica de evolucao baseada no historico

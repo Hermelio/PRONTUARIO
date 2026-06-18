@@ -31,6 +31,9 @@ Endpoints iniciais:
 - Avaliacoes Clinicas: modelos por especialidade, formularios personalizados e metricas comparativas.
 - Intercorrencias: eventos do tratamento com gravidade, classificacao e conduta realizada.
 - Exames e Documentos: anexos de exames, receitas, laudos, PDFs e fotos vinculados ao paciente.
+- Financeiro: recebimentos, repasses, percentuais e fechamento mensal.
+- Dashboard: indicadores gerais assistenciais, financeiros, clinicos e mapa operacional.
+- Controle de Acesso: perfis administrador, coordenador, profissional e financeiro.
 
 O escopo inicial esta documentado em `docs/ESCOPO_INICIAL.md`.
 
