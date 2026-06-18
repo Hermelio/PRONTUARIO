@@ -34,6 +34,8 @@ Endpoints iniciais:
 - Financeiro: recebimentos, repasses, percentuais e fechamento mensal.
 - Dashboard: indicadores gerais assistenciais, financeiros, clinicos e mapa operacional.
 - Controle de Acesso: perfis administrador, coordenador, profissional e financeiro.
+- Login do SaaS: `/login/`
+- Portal pos-login: `/app/`
 
 O escopo inicial esta documentado em `docs/ESCOPO_INICIAL.md`.
 

@@ -262,6 +262,13 @@ Perfis:
 - Profissional: acesso aos proprios pacientes e atendimentos
 - Financeiro: acesso aos modulos financeiros
 
+Fluxo de acesso:
+
+- Usuario entra em `/login/`
+- Apos autenticar, acessa o portal em `/app/`
+- O portal exibe os modulos conforme o perfil de acesso
+- O Django Admin permanece disponivel para administradores e configuracao interna
+
 ## Diferenciais Futuros
 
 - Aplicativo mobile Android e iOS

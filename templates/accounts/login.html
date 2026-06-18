@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Entrar - PRONTUARIO{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <div class="row justify-content-center align-items-center g-5">
+    <div class="col-lg-6">
+      <span class="eyebrow mb-3"><i class="bi bi-shield-lock"></i> Area segura</span>
+      <h1 class="display-5 fw-bold">Entre no PRONTUARIO.</h1>
+      <p class="lead text-muted-app">Profissionais, coordenadores, administradores e financeiro acessam o sistema por aqui.</p>
+      <div class="d-grid gap-3 mt-4">
+        <div class="d-flex gap-3">
+          <span class="icon-box"><i class="bi bi-person-vcard"></i></span>
+          <div>
+            <strong>Acesso por perfil</strong>
+            <p class="text-muted-app mb-0">Cada usuario enxerga apenas os modulos permitidos.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3">
+          <span class="icon-box"><i class="bi bi-heart-pulse"></i></span>
+          <div>
+            <strong>Portal operacional</strong>
+            <p class="text-muted-app mb-0">Entrada para agenda, pacientes, prontuario, avaliacoes e financeiro.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="soft-card p-4 p-lg-5">
+        <h2 class="h4 fw-bold mb-4">Login</h2>
+        {% if form.errors %}
+          <div class="alert alert-danger">Usuario ou senha invalidos.</div>
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+            <input type="text" name="{{ form.username.html_name }}" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="{{ form.username.id_for_label }}" class="form-control form-control-lg">
+          </div>
+          <div class="mb-4">
+            <label for="{{ form.password.id_for_label }}" class="form-label">Senha</label>
+            <input type="password" name="{{ form.password.html_name }}" autocomplete="current-password" required id="{{ form.password.id_for_label }}" class="form-control form-control-lg">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-100">Entrar</button>
+        </form>
+        <p class="text-muted-app small mb-0 mt-4">O cadastro de usuarios e vinculo de perfil ainda e feito pelo administrador.</p>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
