@@ -170,3 +170,39 @@ Comparativos gerados:
 - Indicadores de melhora
 - Indicadores de piora
 - Base para graficos de linha, barras e historico temporal
+
+## Modulo de Intercorrencias
+
+Registrar eventos ocorridos durante o tratamento.
+
+Campos:
+
+- Paciente
+- Data
+- Hora
+- Profissional
+- Descricao da intercorrencia
+- Gravidade
+- Conduta realizada
+- Classificacao
+
+Classificacoes:
+
+- Leve
+- Moderada
+- Grave
+- Critica
+
+## Modulo de Exames e Documentos
+
+Todos os arquivos devem ficar vinculados ao paciente.
+
+Tipos previstos:
+
+- Exames laboratoriais
+- Exames de imagem
+- Receitas medicas
+- Relatorios
+- Laudos
+- PDFs
+- Fotos

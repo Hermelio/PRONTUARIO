@@ -29,6 +29,8 @@ Endpoints iniciais:
 - Check-in/Check-out: validacao por GPS, raio permitido, distancia e duracao do atendimento.
 - Prontuario Eletronico: evolucoes por paciente, historico, pesquisa, filtros e impressao.
 - Avaliacoes Clinicas: modelos por especialidade, formularios personalizados e metricas comparativas.
+- Intercorrencias: eventos do tratamento com gravidade, classificacao e conduta realizada.
+- Exames e Documentos: anexos de exames, receitas, laudos, PDFs e fotos vinculados ao paciente.
 
 O escopo inicial esta documentado em `docs/ESCOPO_INICIAL.md`.
 
