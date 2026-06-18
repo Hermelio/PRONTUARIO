@@ -32,7 +32,11 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.professionals",
     "apps.patients",
+    "apps.scheduling",
+    "apps.attendance",
 ]
+
+CHECKIN_DEFAULT_RADIUS_METERS = int(os.environ.get("CHECKIN_DEFAULT_RADIUS_METERS", "100"))
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

@@ -25,6 +25,8 @@ Endpoints iniciais:
 
 - Profissionais: dados pessoais, endereco, conselho, especialidades, status e documentos.
 - Pacientes: dados cadastrais, endereco, geolocalizacao, dados clinicos, responsavel e profissional de referencia.
+- Agenda: agendamento por paciente/profissional, horarios, status e recorrencias.
+- Check-in/Check-out: validacao por GPS, raio permitido, distancia e duracao do atendimento.
 
 O escopo inicial esta documentado em `docs/ESCOPO_INICIAL.md`.
 

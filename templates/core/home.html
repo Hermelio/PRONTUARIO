@@ -1,44 +1,331 @@
 {% extends "base.html" %}
 
-{% block title %}PRONTUARIO - Gestao de Atendimento Domiciliar{% endblock %}
+{% block title %}PRONTUARIO - Plataforma de Home Care{% endblock %}
 
 {% block content %}
-<main class="container py-5">
-  <section class="card hero-card p-4 p-lg-5">
-    <div class="row align-items-center g-4">
-      <div class="col-lg-7">
-        <span class="badge text-bg-primary mb-3">SaaS em construcao</span>
-        <h1 class="display-5 fw-bold">Prontuario eletronico para atendimento domiciliar.</h1>
-        <p class="lead text-secondary mt-3">
-          Base inicial para gestao de profissionais, pacientes, documentos clinicos,
-          geolocalizacao e operacao de Home Care.
-        </p>
-        <div class="d-flex flex-wrap gap-2 mt-4">
-          <a class="btn btn-primary btn-lg" href="/admin/">Acessar admin</a>
-          <a class="btn btn-outline-secondary btn-lg" href="/healthcheck/">Healthcheck</a>
+<main>
+  <section class="section-pad pt-5 reveal">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="eyebrow mb-4"><i class="bi bi-shield-check"></i> SaaS para gestao clinica domiciliar</span>
+          <h1 class="display-3 fw-bold lh-1 mb-4">
+            Prontuario eletronico para equipes de Home Care.
+          </h1>
+          <p class="lead text-muted-app mb-4">
+            Centralize pacientes, profissionais, documentos, rotas, evolucoes clinicas e indicadores em uma plataforma moderna para atendimento domiciliar.
+          </p>
+          <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+            <a class="btn btn-primary btn-lg px-5" href="/admin/">
+              Acessar painel <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+            <a class="btn btn-light btn-lg px-5 border" href="#modulos">Ver modulos</a>
+          </div>
+          <div class="d-flex flex-wrap gap-3 text-muted-app small">
+            <span><i class="bi bi-check-circle-fill text-primary me-1"></i> Responsivo</span>
+            <span><i class="bi bi-check-circle-fill text-primary me-1"></i> Pronto para PostgreSQL</span>
+            <span><i class="bi bi-check-circle-fill text-primary me-1"></i> API REST</span>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="dashboard-panel p-4 p-lg-5 floating-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div>
+                <div class="text-uppercase small text-info fw-bold">Dashboard operacional</div>
+                <h2 class="h4 text-white mb-0">Atendimentos de hoje</h2>
+              </div>
+              <span class="badge rounded-pill text-bg-info">Ao vivo</span>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-6">
+                <div class="p-3 rounded-4 bg-white bg-opacity-10">
+                  <div class="text-info small fw-bold">Pacientes ativos</div>
+                  <div class="h2 text-white mb-0">248</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-3 rounded-4 bg-white bg-opacity-10">
+                  <div class="text-info small fw-bold">Visitas agendadas</div>
+                  <div class="h2 text-white mb-0">37</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mini-chart mb-4" aria-hidden="true">
+              <span style="height: 42%"></span>
+              <span style="height: 70%"></span>
+              <span style="height: 54%"></span>
+              <span style="height: 86%"></span>
+              <span style="height: 63%"></span>
+              <span style="height: 96%"></span>
+              <span style="height: 76%"></span>
+            </div>
+
+            <div class="p-3 rounded-4 bg-white text-dark">
+              <div class="d-flex align-items-center gap-3">
+                <span class="icon-box"><i class="bi bi-geo-alt-fill"></i></span>
+                <div>
+                  <strong>Rota inteligente para atendimento domiciliar</strong>
+                  <p class="mb-0 text-muted-app small">Paciente com latitude, longitude e abertura direta no Google Maps.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-lg-5">
-        <div class="row g-3">
-          <div class="col-12">
-            <div class="p-3 rounded-4 bg-light border">
-              <strong>Profissionais</strong>
-              <p class="mb-0 text-secondary">Cadastro completo, conselho e documentos.</p>
-            </div>
+    </div>
+  </section>
+
+  <section class="pb-5 reveal">
+    <div class="container">
+      <div class="glass-card p-4">
+        <div class="row g-4 text-center">
+          <div class="col-6 col-lg-3">
+            <div class="h2 fw-bold mb-1">100%</div>
+            <div class="text-muted-app small">web e responsivo</div>
           </div>
-          <div class="col-12">
-            <div class="p-3 rounded-4 bg-light border">
-              <strong>Pacientes</strong>
-              <p class="mb-0 text-secondary">Dados cadastrais, clinicos, responsavel e mapa.</p>
-            </div>
+          <div class="col-6 col-lg-3">
+            <div class="h2 fw-bold mb-1">GPS</div>
+            <div class="text-muted-app small">localizacao do paciente</div>
           </div>
-          <div class="col-12">
-            <div class="p-3 rounded-4 bg-light border">
-              <strong>Proximos modulos</strong>
-              <p class="mb-0 text-secondary">Agenda, prontuario, financeiro, auditoria e dashboards.</p>
+          <div class="col-6 col-lg-3">
+            <div class="h2 fw-bold mb-1">PDF</div>
+            <div class="text-muted-app small">relatorios e prontuarios</div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="h2 fw-bold mb-1">API</div>
+            <div class="text-muted-app small">base para integracoes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="modulos" class="section-pad reveal">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-lg-8">
+          <span class="eyebrow mb-3"><i class="bi bi-grid-1x2-fill"></i> Modulos essenciais</span>
+          <h2 class="display-6 fw-bold">Tudo que a operacao domiciliar precisa em um so lugar.</h2>
+          <p class="text-muted-app">A base agora contempla cadastro, agenda, recorrencia, check-in por GPS e historico operacional.</p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-person-badge"></i></span>
+            <h3 class="h5 fw-bold">Profissionais</h3>
+            <p class="text-muted-app mb-0">Cadastro completo com dados pessoais, conselho profissional, especialidades, status e documentos anexos.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-person-heart"></i></span>
+            <h3 class="h5 fw-bold">Pacientes</h3>
+            <p class="text-muted-app mb-0">Dados cadastrais, responsavel, diagnosticos, alergias, medicamentos, observacoes clinicas e profissional de referencia.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-geo-alt"></i></span>
+            <h3 class="h5 fw-bold">Geolocalizacao</h3>
+            <p class="text-muted-app mb-0">Latitude, longitude, visualizacao em mapa e rota ate o domicilio do paciente.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-calendar2-week"></i></span>
+            <h3 class="h5 fw-bold">Agenda</h3>
+            <p class="text-muted-app mb-0">Agenda diaria, semanal e mensal com paciente, profissional, horarios, status e recorrencias.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-file-earmark-medical"></i></span>
+            <h3 class="h5 fw-bold">Check-in e Check-out</h3>
+            <p class="text-muted-app mb-0">Validacao por GPS, raio permitido, horario de chegada, saida, distancia e duracao.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-graph-up-arrow"></i></span>
+            <h3 class="h5 fw-bold">Indicadores</h3>
+            <p class="text-muted-app mb-0">Dashboard analitico para atendimentos, produtividade, pendencias, financeiro e qualidade assistencial.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white reveal">
+    <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-lg-8">
+          <span class="eyebrow mb-3"><i class="bi bi-calendar-week"></i> Agenda inteligente</span>
+          <h2 class="display-6 fw-bold">Uma agenda com cara de produto SaaS moderno.</h2>
+          <p class="text-muted-app">A arquitetura ja suporta visoes diaria, semanal e mensal, reagendamentos, cancelamentos e recorrencias como 3 vezes por semana, 2 vezes por semana ou mensal.</p>
+        </div>
+      </div>
+
+      <div class="schedule-board">
+        <div class="overflow-auto">
+          <div class="calendar-grid">
+            <div class="calendar-cell calendar-head">Hora</div>
+            <div class="calendar-cell calendar-head">Segunda</div>
+            <div class="calendar-cell calendar-head">Terca</div>
+            <div class="calendar-cell calendar-head">Quarta</div>
+            <div class="calendar-cell calendar-head">Quinta</div>
+            <div class="calendar-cell calendar-head">Sexta</div>
+
+            <div class="calendar-cell text-muted-app fw-bold">08:00</div>
+            <div class="calendar-cell"><span class="visit-pill"><strong>Paciente A</strong><br><small>Fisioterapia - Confirmado</small></span></div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"><span class="visit-pill"><strong>Paciente A</strong><br><small>Fisioterapia - Confirmado</small></span></div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"><span class="visit-pill"><strong>Paciente A</strong><br><small>Fisioterapia - Confirmado</small></span></div>
+
+            <div class="calendar-cell text-muted-app fw-bold">10:00</div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"><span class="visit-pill alt"><strong>Paciente B</strong><br><small>Enfermagem - Agendado</small></span></div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"><span class="visit-pill alt"><strong>Paciente B</strong><br><small>Enfermagem - Agendado</small></span></div>
+            <div class="calendar-cell"></div>
+
+            <div class="calendar-cell text-muted-app fw-bold">14:00</div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"><span class="visit-pill warning"><strong>Paciente C</strong><br><small>Mensal - Reagendar</small></span></div>
+            <div class="calendar-cell"></div>
+            <div class="calendar-cell"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad reveal">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="eyebrow mb-3"><i class="bi bi-geo-fill"></i> Validacao em campo</span>
+          <h2 class="display-6 fw-bold">Check-in somente dentro do raio permitido.</h2>
+          <p class="text-muted-app">O sistema registra latitude, longitude, horario, distancia ate a residencia e calcula a duracao entre check-in e check-out.</p>
+          <div class="row g-3 mt-3">
+            <div class="col-sm-4">
+              <div class="soft-card p-3 text-center">
+                <div class="h4 fw-bold mb-1">50m</div>
+                <small class="text-muted-app">raio restrito</small>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="soft-card p-3 text-center">
+                <div class="h4 fw-bold mb-1">100m</div>
+                <small class="text-muted-app">padrao</small>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="soft-card p-3 text-center">
+                <div class="h4 fw-bold mb-1">200m</div>
+                <small class="text-muted-app">flexivel</small>
+              </div>
             </div>
           </div>
         </div>
+        <div class="col-lg-6">
+          <div class="glass-card p-4 p-lg-5 text-center floating-card">
+            <div class="gps-ring mb-4">
+              <span class="brand-mark" style="width: 64px; height: 64px; border-radius: 22px;"><i class="bi bi-geo-alt-fill fs-3"></i></span>
+            </div>
+            <h3 class="h4 fw-bold">Profissional localizado</h3>
+            <p class="text-muted-app mb-4">Distancia estimada da residencia: <strong>28 metros</strong></p>
+            <div class="progress rounded-pill" role="progressbar" aria-label="Distancia permitida" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="height: 12px;">
+              <div class="progress-bar" style="width: 28%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="operacao" class="section-pad bg-white reveal">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <span class="eyebrow mb-3"><i class="bi bi-diagram-3-fill"></i> Fluxo operacional</span>
+          <h2 class="display-6 fw-bold">Da admissao do paciente ate a evolucao clinica.</h2>
+          <p class="text-muted-app">A experiencia sera desenhada para reduzir retrabalho administrativo e dar visibilidade para gestores e profissionais de campo.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="timeline-step" data-step="1">
+                <h3 class="h5 fw-bold">Cadastrar paciente</h3>
+                <p class="text-muted-app mb-0">Dados pessoais, endereco, responsavel, diagnosticos e localizacao.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="timeline-step" data-step="2">
+                <h3 class="h5 fw-bold">Vincular profissional</h3>
+                <p class="text-muted-app mb-0">Especialidade, conselho, disponibilidade e documentos do prestador.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="timeline-step" data-step="3">
+                <h3 class="h5 fw-bold">Agendar atendimento</h3>
+                <p class="text-muted-app mb-0">Visitas domiciliares, rotas, status e alertas operacionais.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="timeline-step" data-step="4">
+                <h3 class="h5 fw-bold">Registrar prontuario</h3>
+                <p class="text-muted-app mb-0">Evolucao, anexos, assinatura, auditoria e relatorios.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="seguranca" class="section-pad reveal">
+    <div class="container">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-lg-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-lock-fill"></i></span>
+            <h3 class="h5 fw-bold">Permissoes por perfil</h3>
+            <p class="text-muted-app mb-0">Base preparada para separar acesso de gestores, profissionais, financeiro e administradores.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-clock-history"></i></span>
+            <h3 class="h5 fw-bold">Auditoria</h3>
+            <p class="text-muted-app mb-0">Eventos importantes poderao ser registrados para rastreabilidade clinica e operacional.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="soft-card h-100 p-4">
+            <span class="icon-box mb-4"><i class="bi bi-cloud-arrow-up-fill"></i></span>
+            <h3 class="h5 fw-bold">Arquivos</h3>
+            <p class="text-muted-app mb-0">Upload de documentos profissionais, comprovantes, certificados e futuros anexos do prontuario.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-5 reveal">
+    <div class="container">
+      <div class="glass-card p-4 p-lg-5 text-center">
+        <span class="eyebrow mb-3"><i class="bi bi-rocket-takeoff-fill"></i> Primeira versao em andamento</span>
+        <h2 class="display-6 fw-bold">Pronto para receber os proximos requisitos.</h2>
+        <p class="text-muted-app mx-auto mb-4" style="max-width: 680px;">
+          A base visual e estrutural ja esta montada. Agora podemos evoluir modulo por modulo com telas reais, regras de negocio e API.
+        </p>
+        <a class="btn btn-primary btn-lg px-5" href="/admin/">Entrar no admin</a>
       </div>
     </div>
   </section>
