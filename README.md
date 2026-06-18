@@ -13,11 +13,20 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+Neste ambiente local ja usamos `.venv` isolado dentro do proprio projeto.
+
 Endpoints iniciais:
 
 - `/` pagina inicial
 - `/healthcheck/` verificacao simples da aplicacao
 - `/admin/` Django Admin
+
+## Modulos iniciados
+
+- Profissionais: dados pessoais, endereco, conselho, especialidades, status e documentos.
+- Pacientes: dados cadastrais, endereco, geolocalizacao, dados clinicos, responsavel e profissional de referencia.
+
+O escopo inicial esta documentado em `docs/ESCOPO_INICIAL.md`.
 
 ## Deploy
 

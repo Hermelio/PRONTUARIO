@@ -1,43 +1,46 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PRONTUARIO</title>
-  <style>
-    :root {
-      color-scheme: light;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f7fafc;
-      color: #172033;
-    }
+{% extends "base.html" %}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-    }
+{% block title %}PRONTUARIO - Gestao de Atendimento Domiciliar{% endblock %}
 
-    main {
-      width: min(720px, calc(100% - 32px));
-      padding: 48px;
-      border-radius: 28px;
-      background: #ffffff;
-      box-shadow: 0 24px 80px rgba(23, 32, 51, 0.12);
-    }
-
-    p {
-      color: #546179;
-      line-height: 1.6;
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>PRONTUARIO</h1>
-    <p>Esqueleto Django criado. A partir daqui vamos transformar esta base no SaaS.</p>
-    <p><strong>Status:</strong> pronto para receber os proximos requisitos.</p>
-  </main>
-</body>
-</html>
+{% block content %}
+<main class="container py-5">
+  <section class="card hero-card p-4 p-lg-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <span class="badge text-bg-primary mb-3">SaaS em construcao</span>
+        <h1 class="display-5 fw-bold">Prontuario eletronico para atendimento domiciliar.</h1>
+        <p class="lead text-secondary mt-3">
+          Base inicial para gestao de profissionais, pacientes, documentos clinicos,
+          geolocalizacao e operacao de Home Care.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a class="btn btn-primary btn-lg" href="/admin/">Acessar admin</a>
+          <a class="btn btn-outline-secondary btn-lg" href="/healthcheck/">Healthcheck</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="row g-3">
+          <div class="col-12">
+            <div class="p-3 rounded-4 bg-light border">
+              <strong>Profissionais</strong>
+              <p class="mb-0 text-secondary">Cadastro completo, conselho e documentos.</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="p-3 rounded-4 bg-light border">
+              <strong>Pacientes</strong>
+              <p class="mb-0 text-secondary">Dados cadastrais, clinicos, responsavel e mapa.</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="p-3 rounded-4 bg-light border">
+              <strong>Proximos modulos</strong>
+              <p class="mb-0 text-secondary">Agenda, prontuario, financeiro, auditoria e dashboards.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
