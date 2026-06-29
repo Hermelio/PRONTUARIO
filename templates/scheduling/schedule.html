@@ -48,9 +48,9 @@
 
   .agenda-day-grid {
     display: grid;
-    grid-template-columns: repeat(7, minmax(190px, 1fr));
-    gap: 1rem;
-    min-width: 980px;
+    grid-template-columns: repeat(7, minmax(176px, 1fr));
+    gap: .75rem;
+    min-width: 1260px;
   }
 
   .agenda-day-column {
@@ -58,7 +58,7 @@
     border-radius: 24px;
     background: #f8fafc;
     min-height: 560px;
-    padding: 1rem;
+    padding: .95rem;
   }
 
   .agenda-day-column.today {
@@ -71,6 +71,11 @@
     border-radius: 22px;
     background: #fff;
     box-shadow: 0 18px 44px rgba(15, 23, 42, .08);
+  }
+
+  .appointment-card-compact {
+    border-radius: 20px;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, .07);
   }
 
   .appointment-card + .appointment-card {
@@ -87,6 +92,66 @@
     background: rgba(37, 99, 235, .1);
     font-weight: 800;
     font-size: .82rem;
+  }
+
+  .appointment-time-stack {
+    line-height: 1.05;
+  }
+
+  .appointment-time-stack small {
+    display: block;
+    margin-top: .25rem;
+    color: #1e40af;
+    font-weight: 800;
+  }
+
+  .appointment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    max-width: 100%;
+    padding: .36rem .66rem;
+    border-radius: 999px;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid var(--app-border);
+    font-size: .78rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .appointment-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .75rem;
+  }
+
+  .appointment-card-compact .appointment-head {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-card-compact .appointment-time {
+    width: 100%;
+    justify-content: center;
+    border-radius: 18px;
+  }
+
+  .appointment-card-compact .appointment-status {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .appointment-card-compact .route-chip {
+    flex: 1 1 calc(50% - .5rem);
+    justify-content: center;
+  }
+
+  .appointment-card-compact .appointment-address {
+    padding: .7rem;
+    border-radius: 16px;
+    background: #f8fafc;
   }
 
   .status-dot {
@@ -146,11 +211,17 @@
     font-size: .78rem;
     font-weight: 800;
   }
+
+  @media (max-width: 991.98px) {
+    .agenda-toolbar {
+      position: static;
+    }
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-<main class="container section-pad pt-5">
+<main class="container-fluid px-3 px-xl-4 section-pad pt-5">
   <section class="agenda-hero p-4 p-lg-5 mb-4">
     <div class="row g-4 align-items-center">
       <div class="col-lg-8">

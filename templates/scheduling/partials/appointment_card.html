@@ -1,7 +1,17 @@
-<article class="appointment-card p-3">
-  <div class="d-flex justify-content-between gap-3 mb-3">
-    <span class="appointment-time"><i class="bi bi-clock"></i>{{ card.appointment.starts_at|time:"H:i" }} - {{ card.appointment.ends_at|time:"H:i" }}</span>
-    <span class="d-inline-flex align-items-center gap-2 small fw-bold text-muted-app">
+<article class="appointment-card {% if compact %}appointment-card-compact p-3{% else %}p-4{% endif %}">
+  <div class="appointment-head mb-3">
+    <span class="appointment-time">
+      <i class="bi bi-clock"></i>
+      {% if compact %}
+        <span class="appointment-time-stack">
+          {{ card.appointment.starts_at|time:"H:i" }}
+          <small>{{ card.appointment.ends_at|time:"H:i" }}</small>
+        </span>
+      {% else %}
+        {{ card.appointment.starts_at|time:"H:i" }} - {{ card.appointment.ends_at|time:"H:i" }}
+      {% endif %}
+    </span>
+    <span class="appointment-status">
       <span class="status-dot status-{{ card.appointment.status }}"></span>{{ card.appointment.get_status_display }}
     </span>
   </div>
@@ -17,7 +27,7 @@
       <span class="badge rounded-pill text-bg-light border text-dark ms-1">recorrente</span>
     {% endif %}
   </div>
-  <div class="small text-muted-app mb-3">
+  <div class="appointment-address small text-muted-app mb-3">
     <i class="bi bi-geo-alt text-primary me-1"></i>
     {% if card.address %}{{ card.address }}{% else %}Endereco nao informado{% endif %}
   </div>
