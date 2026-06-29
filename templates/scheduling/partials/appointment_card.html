@@ -1,0 +1,36 @@
+<article class="appointment-card p-3">
+  <div class="d-flex justify-content-between gap-3 mb-3">
+    <span class="appointment-time"><i class="bi bi-clock"></i>{{ card.appointment.starts_at|time:"H:i" }} - {{ card.appointment.ends_at|time:"H:i" }}</span>
+    <span class="d-inline-flex align-items-center gap-2 small fw-bold text-muted-app">
+      <span class="status-dot status-{{ card.appointment.status }}"></span>{{ card.appointment.get_status_display }}
+    </span>
+  </div>
+  <h3 class="{% if compact %}h6{% else %}h5{% endif %} fw-bold mb-1">
+    <a class="text-decoration-none text-dark" href="{% url 'patients:detail' card.patient.pk %}">{{ card.patient.full_name }}</a>
+  </h3>
+  <div class="text-muted-app small mb-2">
+    <i class="bi bi-person-badge me-1"></i>{{ card.professional.full_name }}
+  </div>
+  <div class="small mb-3">
+    <span class="fw-bold">{{ card.appointment.get_appointment_type_display }}</span>
+    {% if card.appointment.is_recurring %}
+      <span class="badge rounded-pill text-bg-light border text-dark ms-1">recorrente</span>
+    {% endif %}
+  </div>
+  <div class="small text-muted-app mb-3">
+    <i class="bi bi-geo-alt text-primary me-1"></i>
+    {% if card.address %}{{ card.address }}{% else %}Endereco nao informado{% endif %}
+  </div>
+  {% if card.appointment.notes and not compact %}
+    <p class="small text-muted-app mb-3">{{ card.appointment.notes|truncatechars:150 }}</p>
+  {% endif %}
+  <div class="d-flex flex-wrap gap-2">
+    {% if card.maps_url %}
+      <a class="route-chip" href="{{ card.maps_url }}" target="_blank" rel="noopener"><i class="bi bi-map"></i>Mapa</a>
+    {% endif %}
+    {% if card.route_url %}
+      <a class="route-chip" href="{{ card.route_url }}" target="_blank" rel="noopener"><i class="bi bi-signpost-2"></i>Rota</a>
+    {% endif %}
+    <a class="route-chip" href="{% url 'patients:detail' card.patient.pk %}"><i class="bi bi-folder2-open"></i>Ficha</a>
+  </div>
+</article>

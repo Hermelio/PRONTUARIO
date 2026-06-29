@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}Agenda - PRONTUARIO{% endblock %}
+
+{% block extra_css %}
+<style>
+  .agenda-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 34px;
+    color: #e2e8f0;
+    background:
+      linear-gradient(135deg, rgba(15, 23, 42, .96), rgba(30, 58, 138, .9)),
+      radial-gradient(circle at top right, rgba(6, 182, 212, .38), transparent 23rem);
+    box-shadow: 0 34px 100px rgba(15, 23, 42, .24);
+  }
+
+  .agenda-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .14;
+    background-image:
+      linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px);
+    background-size: 54px 54px;
+    pointer-events: none;
+  }
+
+  .agenda-hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .agenda-shell {
+    border: 1px solid var(--app-border);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 26px 80px rgba(15, 23, 42, .1);
+    backdrop-filter: blur(18px);
+  }
+
+  .agenda-toolbar {
+    position: sticky;
+    top: 86px;
+    z-index: 10;
+  }
+
+  .agenda-day-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(190px, 1fr));
+    gap: 1rem;
+    min-width: 980px;
+  }
+
+  .agenda-day-column {
+    border: 1px solid var(--app-border);
+    border-radius: 24px;
+    background: #f8fafc;
+    min-height: 560px;
+    padding: 1rem;
+  }
+
+  .agenda-day-column.today {
+    border-color: rgba(37, 99, 235, .42);
+    background: linear-gradient(180deg, rgba(37, 99, 235, .08), #fff);
+  }
+
+  .appointment-card {
+    border: 1px solid rgba(37, 99, 235, .12);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, .08);
+  }
+
+  .appointment-card + .appointment-card {
+    margin-top: .85rem;
+  }
+
+  .appointment-time {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .38rem .7rem;
+    border-radius: 999px;
+    color: #1e3a8a;
+    background: rgba(37, 99, 235, .1);
+    font-weight: 800;
+    font-size: .82rem;
+  }
+
+  .status-dot {
+    width: .7rem;
+    height: .7rem;
+    border-radius: 50%;
+    background: #94a3b8;
+    box-shadow: 0 0 0 5px rgba(148, 163, 184, .16);
+  }
+
+  .status-confirmed { background: #2563eb; box-shadow: 0 0 0 5px rgba(37, 99, 235, .15); }
+  .status-in_progress { background: #f59e0b; box-shadow: 0 0 0 5px rgba(245, 158, 11, .18); }
+  .status-completed { background: #16a34a; box-shadow: 0 0 0 5px rgba(22, 163, 74, .16); }
+  .status-canceled { background: #ef4444; box-shadow: 0 0 0 5px rgba(239, 68, 68, .16); }
+
+  .month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(150px, 1fr));
+    gap: .75rem;
+    min-width: 960px;
+  }
+
+  .month-cell {
+    min-height: 150px;
+    border: 1px solid var(--app-border);
+    border-radius: 20px;
+    background: #fff;
+    padding: .8rem;
+  }
+
+  .month-cell.outside {
+    opacity: .42;
+    background: #f8fafc;
+  }
+
+  .mini-appointment {
+    display: block;
+    margin-top: .45rem;
+    padding: .45rem .55rem;
+    border-radius: 14px;
+    color: #1e3a8a;
+    background: rgba(37, 99, 235, .09);
+    font-size: .78rem;
+    font-weight: 700;
+  }
+
+  .route-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .45rem .65rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #0f172a;
+    background: #f8fafc;
+    border: 1px solid var(--app-border);
+    font-size: .78rem;
+    font-weight: 800;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <section class="agenda-hero p-4 p-lg-5 mb-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-8">
+        <span class="hero-badge mb-3"><i class="bi bi-calendar-week"></i> Agenda operacional</span>
+        <h1 class="display-6 fw-bold text-white mb-3">Agenda de atendimentos domiciliares</h1>
+        <p class="hero-copy lead mb-0">
+          Veja paciente, profissional, horario, status e local de atendimento em uma tela unica para a operacao.
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="metric-card-dark p-3">
+              <div class="small text-info fw-bold">Periodo</div>
+              <div class="h2 text-white mb-0">{{ total_appointments }}</div>
+              <small class="text-white-50">atendimentos</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="metric-card-dark p-3">
+              <div class="small text-info fw-bold">Hoje</div>
+              <div class="h2 text-white mb-0">{{ today_count }}</div>
+              <small class="text-white-50">na agenda</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="metric-card-dark p-3">
+              <div class="small text-info fw-bold">GPS</div>
+              <div class="h2 text-white mb-0">{{ mapped_count }}</div>
+              <small class="text-white-50">com local</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="metric-card-dark p-3">
+              <div class="small text-info fw-bold">Em atendimento</div>
+              <div class="h2 text-white mb-0">{{ in_progress_count }}</div>
+              <small class="text-white-50">agora</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="agenda-shell agenda-toolbar p-3 p-lg-4 mb-4">
+    <form method="get" class="row g-3 align-items-end">
+      <div class="col-md-3">{{ form.date.label_tag }}{{ form.date }}</div>
+      <div class="col-md-2">{{ form.view.label_tag }}{{ form.view }}</div>
+      {% if allow_professional_filter %}
+        <div class="col-md-3">{{ form.professional.label_tag }}{{ form.professional }}</div>
+      {% endif %}
+      <div class="col-md-2">{{ form.status.label_tag }}{{ form.status }}</div>
+      <div class="col-md-2 d-grid">
+        <button class="btn btn-primary btn-lg" type="submit"><i class="bi bi-funnel me-2"></i>Filtrar</button>
+      </div>
+    </form>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mt-4">
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-light border" href="{{ previous_url }}"><i class="bi bi-chevron-left"></i> Anterior</a>
+        <a class="btn btn-light border" href="{{ today_url }}">Hoje</a>
+        <a class="btn btn-light border" href="{{ next_url }}">Proximo <i class="bi bi-chevron-right"></i></a>
+      </div>
+      <div class="text-muted-app small fw-semibold">
+        Periodo: {{ start_date|date:"d/m/Y" }} ate {{ end_date|date:"d/m/Y" }}
+      </div>
+    </div>
+  </section>
+
+  {% if allow_professional_filter and professional_board %}
+    <section class="row g-3 mb-4">
+      {% for row in professional_board %}
+        <div class="col-md-6 col-xl-3">
+          <div class="soft-card p-3 h-100">
+            <div class="d-flex justify-content-between gap-3">
+              <div>
+                <div class="fw-bold">{{ row.professional.full_name }}</div>
+                <div class="text-muted-app small">{{ row.professional.primary_specialty|default:"Especialidade nao informada" }}</div>
+              </div>
+              <span class="badge rounded-pill text-bg-primary align-self-start">{{ row.total }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+  {% endif %}
+
+  {% if view_mode == "month" %}
+    <section class="agenda-shell p-3 p-lg-4 overflow-auto">
+      <div class="month-grid mb-3">
+        <div class="fw-bold text-muted-app small text-uppercase">Seg</div>
+        <div class="fw-bold text-muted-app small text-uppercase">Ter</div>
+        <div class="fw-bold text-muted-app small text-uppercase">Qua</div>
+        <div class="fw-bold text-muted-app small text-uppercase">Qui</div>
+        <div class="fw-bold text-muted-app small text-uppercase">Sex</div>
+        <div class="fw-bold text-muted-app small text-uppercase">Sab</div>
+        <div class="fw-bold text-muted-app small text-uppercase">Dom</div>
+      </div>
+      {% for week in month_weeks %}
+        <div class="month-grid mb-3">
+          {% for day in week %}
+            <div class="month-cell {% if not day.in_month %}outside{% endif %}">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bold {% if day.is_today %}text-primary{% endif %}">{{ day.date|date:"d" }}</span>
+                {% if day.appointments %}<span class="badge rounded-pill text-bg-light border text-dark">{{ day.appointments|length }}</span>{% endif %}
+              </div>
+              {% for card in day.appointments|slice:":4" %}
+                <a class="mini-appointment text-decoration-none" href="{% url 'patients:detail' card.patient.pk %}">
+                  {{ card.appointment.starts_at|time:"H:i" }} · {{ card.patient.full_name|truncatechars:22 }}
+                </a>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </section>
+  {% elif view_mode == "day" %}
+    <section class="row g-4">
+      <div class="col-xl-8">
+        <div class="agenda-shell p-3 p-lg-4">
+          <h2 class="h4 fw-bold mb-4">{{ selected_date|date:"d/m/Y" }}</h2>
+          {% for card in appointments %}
+            {% include "scheduling/partials/appointment_card.html" with card=card %}
+          {% empty %}
+            <div class="text-center p-5">
+              <i class="bi bi-calendar2-check display-5 text-primary"></i>
+              <h2 class="h4 fw-bold mt-3">Nenhum atendimento neste dia</h2>
+              <p class="text-muted-app mb-0">Use os filtros para consultar outro profissional, data ou status.</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="soft-card p-4 h-100">
+          <h2 class="h5 fw-bold mb-3">Resumo do dia</h2>
+          <div class="d-flex justify-content-between border-bottom py-2"><span>Confirmados</span><strong>{{ confirmed_count }}</strong></div>
+          <div class="d-flex justify-content-between border-bottom py-2"><span>Em atendimento</span><strong>{{ in_progress_count }}</strong></div>
+          <div class="d-flex justify-content-between py-2"><span>Finalizados</span><strong>{{ completed_count }}</strong></div>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <section class="agenda-shell p-3 p-lg-4 overflow-auto">
+      <div class="agenda-day-grid">
+        {% for column in week_columns %}
+          <div class="agenda-day-column {% if column.is_today %}today{% endif %}">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <div class="small fw-bold text-muted-app text-uppercase">{{ column.date|date:"D" }}</div>
+                <div class="h4 fw-bold mb-0">{{ column.date|date:"d/m" }}</div>
+              </div>
+              {% if column.appointments %}
+                <span class="badge rounded-pill text-bg-primary">{{ column.appointments|length }}</span>
+              {% endif %}
+            </div>
+            {% for card in column.appointments %}
+              {% include "scheduling/partials/appointment_card.html" with card=card compact=True %}
+            {% empty %}
+              <div class="text-muted-app small">Sem atendimentos.</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+</main>
+{% endblock %}
