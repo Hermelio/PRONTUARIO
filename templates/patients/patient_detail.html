@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}{{ patient.full_name }} - PRONTUARIO{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3 mb-4">
+    <div>
+      <a href="{% url 'patients:list' %}" class="text-decoration-none small fw-bold"><i class="bi bi-arrow-left"></i> Voltar para pacientes</a>
+      <h1 class="display-6 fw-bold mt-3 mb-1">{{ patient.full_name }}</h1>
+      <p class="text-muted-app mb-0">
+        {% if patient.age %}{{ patient.age }} anos · {% endif %}
+        {{ patient.primary_diagnosis|default:"Diagnóstico não informado" }}
+      </p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-primary px-4" href="{% url 'patients:update' patient.pk %}">Editar cadastro</a>
+      <a class="btn btn-light border px-4" href="{% url 'medical_records:patient_record' patient.pk %}">Prontuário</a>
+      <a class="btn btn-light border px-4" href="{% url 'assessments:patient_indicators' patient.pk %}">Indicadores</a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="executive-panel p-4 p-lg-5 h-100">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+          <div>
+            <div class="text-uppercase small text-info fw-bold">Ficha de acompanhamento</div>
+            <h2 class="h4 text-white mb-0">Resumo assistencial</h2>
+          </div>
+          {% if patient.status == "active" %}
+            <span class="badge rounded-pill text-bg-success">Ativo</span>
+          {% else %}
+            <span class="badge rounded-pill text-bg-secondary">Inativo</span>
+          {% endif %}
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="metric-card-dark p-3">
+              <div class="text-info small fw-bold">Agenda</div>
+              <div class="h2 text-white mb-0">{{ appointments|length }}</div>
+              <small class="text-white-50">últimos registros</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="metric-card-dark p-3">
+              <div class="text-info small fw-bold">Evoluções</div>
+              <div class="h2 text-white mb-0">{{ evolutions|length }}</div>
+              <small class="text-white-50">histórico recente</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="metric-card-dark p-3">
+              <div class="text-info small fw-bold">Documentos</div>
+              <div class="h2 text-white mb-0">{{ documents|length }}</div>
+              <small class="text-white-50">anexos recentes</small>
+            </div>
+          </div>
+        </div>
+        <hr class="border-light border-opacity-25">
+        <div class="row g-3 small">
+          <div class="col-md-6"><strong class="text-white">Profissional:</strong> {{ patient.assigned_professional|default:"Não vinculado" }}</div>
+          <div class="col-md-6"><strong class="text-white">Responsável:</strong> {{ patient.responsible_name|default:"Não informado" }}</div>
+          <div class="col-md-6"><strong class="text-white">Telefone:</strong> {{ patient.phone|default:"Não informado" }}</div>
+          <div class="col-md-6"><strong class="text-white">Cidade:</strong> {{ patient.city|default:"Não informada" }}{% if patient.state %}/{{ patient.state }}{% endif %}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="soft-card p-4 h-100">
+        <span class="icon-box mb-3"><i class="bi bi-geo-alt-fill"></i></span>
+        <h2 class="h5 fw-bold">Localização</h2>
+        <p class="text-muted-app">{{ patient.street }} {{ patient.number }} {{ patient.neighborhood }} {{ patient.city }} {{ patient.state }}</p>
+        <div class="d-grid gap-2">
+          {% if patient.google_maps_url %}
+            <a class="btn btn-primary" href="{{ patient.google_maps_url }}" target="_blank" rel="noopener">Abrir no mapa</a>
+          {% endif %}
+          {% if patient.route_url %}
+            <a class="btn btn-light border" href="{{ patient.route_url }}" target="_blank" rel="noopener">Traçar rota</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <section class="soft-card p-4 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h5 fw-bold mb-0">Evoluções recentes</h2>
+          <a class="small fw-bold" href="{% url 'medical_records:patient_record' patient.pk %}">Ver prontuário</a>
+        </div>
+        {% for evolution in evolutions %}
+          <div class="border-bottom pb-3 mb-3">
+            <div class="fw-bold">{{ evolution.date|date:"d/m/Y" }} às {{ evolution.time|time:"H:i" }}</div>
+            <div class="text-muted-app small">{{ evolution.professional }}</div>
+            <p class="mb-0 mt-2">{{ evolution.service_description|truncatechars:150 }}</p>
+          </div>
+        {% empty %}
+          <p class="text-muted-app mb-0">Nenhuma evolução registrada.</p>
+        {% endfor %}
+      </section>
+    </div>
+    <div class="col-lg-6">
+      <section class="soft-card p-4 h-100">
+        <h2 class="h5 fw-bold mb-3">Próximos/últimos atendimentos</h2>
+        {% for appointment in appointments %}
+          <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+            <div>
+              <div class="fw-bold">{{ appointment.date|date:"d/m/Y" }} · {{ appointment.starts_at|time:"H:i" }}</div>
+              <div class="text-muted-app small">{{ appointment.professional }} · {{ appointment.get_appointment_type_display }}</div>
+            </div>
+            <span class="badge rounded-pill text-bg-light border text-dark align-self-start">{{ appointment.get_status_display }}</span>
+          </div>
+        {% empty %}
+          <p class="text-muted-app mb-0">Nenhum atendimento registrado.</p>
+        {% endfor %}
+      </section>
+    </div>
+    <div class="col-lg-4">
+      <section class="soft-card p-4 h-100">
+        <h2 class="h5 fw-bold mb-3">Documentos</h2>
+        {% for document in documents %}
+          <div class="mb-3">
+            <div class="fw-bold">{{ document.title }}</div>
+            <div class="text-muted-app small">{{ document.get_document_type_display }}</div>
+          </div>
+        {% empty %}
+          <p class="text-muted-app mb-0">Nenhum documento anexado.</p>
+        {% endfor %}
+      </section>
+    </div>
+    <div class="col-lg-4">
+      <section class="soft-card p-4 h-100">
+        <h2 class="h5 fw-bold mb-3">Intercorrências</h2>
+        {% for incident in incidents %}
+          <div class="mb-3">
+            <div class="fw-bold">{{ incident.date|date:"d/m/Y" }} · {{ incident.get_classification_display }}</div>
+            <div class="text-muted-app small">{{ incident.description|truncatechars:90 }}</div>
+          </div>
+        {% empty %}
+          <p class="text-muted-app mb-0">Nenhuma intercorrência registrada.</p>
+        {% endfor %}
+      </section>
+    </div>
+    <div class="col-lg-4">
+      <section class="soft-card p-4 h-100">
+        <h2 class="h5 fw-bold mb-3">Avaliações</h2>
+        {% for assessment in assessments %}
+          <div class="mb-3">
+            <div class="fw-bold">{{ assessment.template.name }}</div>
+            <div class="text-muted-app small">{{ assessment.performed_at|date:"d/m/Y H:i" }} · {{ assessment.professional }}</div>
+          </div>
+        {% empty %}
+          <p class="text-muted-app mb-0">Nenhuma avaliação registrada.</p>
+        {% endfor %}
+      </section>
+    </div>
+  </div>
+</main>
+{% endblock %}

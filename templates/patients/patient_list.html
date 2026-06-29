@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Pacientes - PRONTUARIO{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+      <span class="eyebrow mb-3"><i class="bi bi-person-heart"></i> Gestão de pacientes</span>
+      <h1 class="display-6 fw-bold mb-1">Acompanhamento de pacientes</h1>
+      <p class="text-muted-app mb-0">Cadastre, pesquise e acompanhe a jornada clínica e operacional de cada paciente.</p>
+    </div>
+    <a class="btn btn-primary btn-lg px-4" href="{% url 'patients:create' %}">
+      <i class="bi bi-plus-lg me-2"></i>Novo paciente
+    </a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+      <div class="soft-card p-3">
+        <div class="text-muted-app small">Total</div>
+        <div class="h3 fw-bold mb-0">{{ total_patients }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="soft-card p-3">
+        <div class="text-muted-app small">Ativos</div>
+        <div class="h3 fw-bold mb-0">{{ active_patients }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="soft-card p-3">
+        <div class="text-muted-app small">Inativos</div>
+        <div class="h3 fw-bold mb-0">{{ inactive_patients }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="soft-card p-3">
+        <div class="text-muted-app small">Com mapa</div>
+        <div class="h3 fw-bold mb-0">{{ mapped_patients }}</div>
+      </div>
+    </div>
+  </div>
+
+  <form method="get" class="soft-card p-3 p-lg-4 mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-lg-8">{{ form.q.label_tag }}{{ form.q }}</div>
+      <div class="col-lg-3">{{ form.status.label_tag }}{{ form.status }}</div>
+      <div class="col-lg-1 d-grid"><button class="btn btn-primary btn-lg" type="submit">Filtrar</button></div>
+    </div>
+  </form>
+
+  <div class="row g-4">
+    {% for patient in patients %}
+      <div class="col-lg-6">
+        <a class="text-decoration-none text-dark" href="{% url 'patients:detail' patient.pk %}">
+          <article class="soft-card module-card h-100 p-4">
+            <div class="d-flex justify-content-between gap-3 mb-3">
+              <div>
+                <h2 class="h4 fw-bold mb-1">{{ patient.full_name }}</h2>
+                <div class="text-muted-app small">
+                  {% if patient.age %}{{ patient.age }} anos · {% endif %}
+                  {{ patient.city|default:"Cidade não informada" }}{% if patient.state %}/{{ patient.state }}{% endif %}
+                </div>
+              </div>
+              {% if patient.status == "active" %}
+                <span class="badge rounded-pill text-bg-success align-self-start">Ativo</span>
+              {% else %}
+                <span class="badge rounded-pill text-bg-secondary align-self-start">Inativo</span>
+              {% endif %}
+            </div>
+            <p class="text-muted-app mb-3">{{ patient.primary_diagnosis|default:"Diagnóstico principal ainda não informado." }}</p>
+            <div class="row g-2 small">
+              <div class="col-6"><i class="bi bi-calendar-check text-primary me-1"></i>{{ patient.appointment_count }} atendimentos</div>
+              <div class="col-6"><i class="bi bi-journal-medical text-primary me-1"></i>{{ patient.evolution_count }} evoluções</div>
+              <div class="col-6"><i class="bi bi-folder2-open text-primary me-1"></i>{{ patient.document_count }} documentos</div>
+              <div class="col-6"><i class="bi bi-exclamation-triangle text-primary me-1"></i>{{ patient.incident_count }} intercorrências</div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text-muted-app small">Profissional: {{ patient.assigned_professional|default:"Não vinculado" }}</span>
+              <span class="fw-bold text-primary">Abrir ficha <i class="bi bi-arrow-right"></i></span>
+            </div>
+          </article>
+        </a>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="soft-card p-5 text-center">
+          <h2 class="h4 fw-bold">Nenhum paciente encontrado</h2>
+          <p class="text-muted-app mb-4">Cadastre o primeiro paciente para começar o acompanhamento.</p>
+          <a class="btn btn-primary px-4" href="{% url 'patients:create' %}">Cadastrar paciente</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

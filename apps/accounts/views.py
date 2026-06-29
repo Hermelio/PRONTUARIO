@@ -11,7 +11,7 @@ def portal_view(request):
     if request.user.is_superuser or (profile and profile.can_access_module("dashboard")):
         cards.append({"title": "Dashboard", "description": "Indicadores gerais da operacao.", "url": "/dashboard/", "icon": "bi-speedometer2"})
     if request.user.is_superuser or (profile and profile.can_access_module("patients")):
-        cards.append({"title": "Pacientes", "description": "Cadastro e acompanhamento de pacientes.", "url": "/admin/patients/patient/", "icon": "bi-person-heart"})
+        cards.append({"title": "Pacientes", "description": "Cadastro e acompanhamento de pacientes.", "url": "/pacientes/", "icon": "bi-person-heart"})
     if request.user.is_superuser or (profile and profile.can_access_module("scheduling")):
         cards.append({"title": "Agenda", "description": "Atendimentos, recorrencias e status.", "url": "/admin/scheduling/appointment/", "icon": "bi-calendar-week"})
     if request.user.is_superuser or (profile and profile.can_access_module("medical_records")):
