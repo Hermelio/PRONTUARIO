@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Avaliacoes - PRONTUARIO{% endblock %}
+
+{% block content %}
+<main class="container-fluid px-3 px-xl-4 section-pad pt-5">
+  <section class="executive-panel p-4 p-lg-5 mb-4">
+    <div class="d-flex flex-column flex-xl-row justify-content-between gap-4">
+      <div class="col-xl-7">
+        <span class="hero-badge mb-3"><i class="bi bi-clipboard2-pulse"></i> Avaliacoes clinicas</span>
+        <h1 class="display-6 fw-bold text-white mb-2">Central de avaliacoes e indicadores</h1>
+        <p class="hero-copy lead mb-0">
+          Registre escalas, acompanhe medidas por especialidade e compare a evolucao funcional dos pacientes ao longo do tempo.
+        </p>
+      </div>
+      <div class="row g-3 col-xl-5">
+        <div class="col-6 col-md-3 col-xl-6">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Pacientes</div>
+            <div class="h2 text-white mb-0">{{ total_patients }}</div>
+            <small class="text-white-50">no escopo</small>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-xl-6">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Avaliados</div>
+            <div class="h2 text-white mb-0">{{ with_assessments }}</div>
+            <small class="text-white-50">com historico</small>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-xl-6">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Pendentes</div>
+            <div class="h2 text-white mb-0">{{ without_assessments }}</div>
+            <small class="text-white-50">sem avaliacao</small>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-xl-6">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Modelos</div>
+            <div class="h2 text-white mb-0">{{ template_count }}</div>
+            <small class="text-white-50">ativos</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <form method="get" class="soft-card p-3 p-lg-4 mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-lg-10">{{ form.q.label_tag }}{{ form.q }}</div>
+      <div class="col-lg-2 d-grid">
+        <button class="btn btn-primary btn-lg" type="submit"><i class="bi bi-search me-2"></i>Buscar</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row g-4">
+    {% for patient in patients %}
+      <div class="col-lg-6 col-xxl-4">
+        <article class="soft-card module-card p-4 h-100">
+          <div class="d-flex justify-content-between gap-3 mb-3">
+            <div>
+              <h2 class="h4 fw-bold mb-1">{{ patient.full_name }}</h2>
+              <div class="text-muted-app small">
+                {% if patient.age %}{{ patient.age }} anos · {% endif %}
+                {{ patient.primary_diagnosis|default:"Diagnostico nao informado" }}
+              </div>
+            </div>
+            {% if patient.assessment_count %}
+              <span class="badge rounded-pill text-bg-success align-self-start">{{ patient.assessment_count }} aval.</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-warning align-self-start">pendente</span>
+            {% endif %}
+          </div>
+          <div class="row g-2 small mb-4">
+            <div class="col-6"><i class="bi bi-clipboard2-pulse text-primary me-1"></i>{{ patient.assessment_count }} avaliacoes</div>
+            <div class="col-6"><i class="bi bi-activity text-primary me-1"></i>{{ patient.metric_count }} metricas</div>
+            <div class="col-6"><i class="bi bi-journal-medical text-primary me-1"></i>{{ patient.evolution_count }} evolucoes</div>
+            <div class="col-6"><i class="bi bi-person-badge text-primary me-1"></i>{{ patient.assigned_professional|default:"Sem vinculo" }}</div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary px-4" href="{% url 'assessments:patient_assessments' patient.pk %}">Abrir avaliacoes</a>
+            <a class="btn btn-light border px-4" href="{% url 'assessments:assessment_create' patient.pk %}">Nova avaliacao</a>
+          </div>
+        </article>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="soft-card p-5 text-center">
+          <i class="bi bi-search display-5 text-primary"></i>
+          <h2 class="h4 fw-bold mt-3">Nenhum paciente encontrado</h2>
+          <p class="text-muted-app mb-0">Tente outro termo de busca ou verifique os vinculos do perfil.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

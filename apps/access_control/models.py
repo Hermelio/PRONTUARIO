@@ -35,7 +35,7 @@ class AccessProfile(models.Model):
         if self.role == self.Role.ADMIN:
             return True
         modules_by_role = {
-            self.Role.COORDINATOR: {"patients", "professionals", "scheduling", "dashboard", "medical_records"},
+            self.Role.COORDINATOR: {"patients", "professionals", "scheduling", "dashboard", "medical_records", "assessments"},
             self.Role.PROFESSIONAL: {"patients", "scheduling", "attendance", "medical_records", "assessments"},
             self.Role.FINANCIAL: {"finance", "dashboard"},
         }

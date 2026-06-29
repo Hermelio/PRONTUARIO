@@ -16,7 +16,7 @@
     <div class="d-flex flex-wrap gap-2">
       <a class="btn btn-primary px-4" href="{% url 'patients:update' patient.pk %}">Editar cadastro</a>
       <a class="btn btn-light border px-4" href="{% url 'medical_records:patient_record' patient.pk %}">Prontuário</a>
-      <a class="btn btn-light border px-4" href="{% url 'assessments:patient_indicators' patient.pk %}">Indicadores</a>
+      <a class="btn btn-light border px-4" href="{% url 'assessments:patient_assessments' patient.pk %}">Avaliacoes</a>
     </div>
   </div>
 

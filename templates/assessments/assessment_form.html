@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Nova avaliacao - {{ patient.full_name }}{% endblock %}
+
+{% block content %}
+<main class="container section-pad pt-5">
+  <section class="executive-panel p-4 p-lg-5 mb-4">
+    <a class="hero-badge text-decoration-none mb-3" href="{% url 'assessments:patient_assessments' patient.pk %}">
+      <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+    <h1 class="display-6 fw-bold text-white mb-2">Nova avaliacao clinica</h1>
+    <p class="hero-copy lead mb-0">{{ patient.full_name }} · {{ patient.primary_diagnosis|default:"Diagnostico nao informado" }}</p>
+  </section>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <section class="soft-card p-4 p-lg-5">
+        <form method="post">
+          {% csrf_token %}
+          {% if form.non_field_errors or metric_form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}{{ metric_form.non_field_errors }}</div>
+          {% endif %}
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">{{ form.professional.label_tag }}{{ form.professional }}{{ form.professional.errors }}</div>
+            <div class="col-md-6">{{ form.template.label_tag }}{{ form.template }}{{ form.template.errors }}</div>
+            <div class="col-md-6">{{ form.performed_at.label_tag }}{{ form.performed_at }}{{ form.performed_at.errors }}</div>
+            <div class="col-12">{{ form.summary.label_tag }}{{ form.summary }}{{ form.summary.errors }}</div>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="icon-box"><i class="bi bi-sliders"></i></span>
+            <div>
+              <div class="section-kicker">Metricas</div>
+              <h2 class="h5 fw-bold mb-0">{{ selected_template.name|default:"Selecione um modelo" }}</h2>
+            </div>
+          </div>
+
+          {% if metric_form.fields %}
+            <div class="row g-3">
+              {% for field in metric_form %}
+                <div class="col-md-6">
+                  <label class="form-label fw-bold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                  {{ field.errors }}
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="alert alert-warning mb-0">Este modelo ainda nao possui campos configurados.</div>
+          {% endif %}
+
+          <div class="d-flex flex-wrap gap-2 mt-4">
+            <button class="btn btn-primary btn-lg px-5" type="submit"><i class="bi bi-check2-circle me-2"></i>Salvar avaliacao</button>
+            <a class="btn btn-light border btn-lg px-4" href="{% url 'assessments:patient_assessments' patient.pk %}">Cancelar</a>
+          </div>
+        </form>
+      </section>
+    </div>
+    <aside class="col-lg-4">
+      <section class="soft-card p-4">
+        <span class="icon-box mb-3"><i class="bi bi-graph-up-arrow"></i></span>
+        <h2 class="h5 fw-bold">Como usar</h2>
+        <p class="text-muted-app small">
+          Escolha o modelo da avaliacao, preencha as escalas e salve. O sistema compara automaticamente metricas repetidas ao longo do tempo.
+        </p>
+        <hr>
+        <div class="small vstack gap-2">
+          <div><strong>Paciente:</strong> {{ patient.full_name }}</div>
+          <div><strong>Profissional vinculado:</strong> {{ patient.assigned_professional|default:"Nao informado" }}</div>
+          <div><strong>Modelos ativos:</strong> escolha no campo modelo</div>
+        </div>
+      </section>
+    </aside>
+  </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const templateSelect = document.getElementById('id_template');
+  if (templateSelect) {
+    templateSelect.addEventListener('change', () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('template', templateSelect.value);
+      window.location.href = url.toString();
+    });
+  }
+</script>
+{% endblock %}

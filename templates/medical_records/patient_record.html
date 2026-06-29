@@ -206,7 +206,7 @@
       <div class="record-actions d-flex flex-wrap gap-2 mb-4">
         <a href="{{ new_evolution_url }}" class="btn btn-primary px-4"><i class="bi bi-plus-lg me-2"></i>Nova evolucao</a>
         <button class="btn btn-light border px-4" onclick="window.print()"><i class="bi bi-printer me-2"></i>Imprimir</button>
-        <a class="btn btn-light border px-4" href="{% url 'assessments:patient_indicators' patient.pk %}"><i class="bi bi-graph-up-arrow me-2"></i>Indicadores</a>
+        <a class="btn btn-light border px-4" href="{% url 'assessments:patient_assessments' patient.pk %}"><i class="bi bi-graph-up-arrow me-2"></i>Avaliacoes</a>
       </div>
 
       <section class="clinical-summary p-4 mb-4">

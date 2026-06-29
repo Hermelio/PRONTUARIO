@@ -33,3 +33,10 @@ class AccessProfileTests(TestCase):
 
         self.assertTrue(profile.can_access_module("finance"))
         self.assertFalse(profile.can_access_module("medical_records"))
+
+    def test_coordinator_can_access_assessments(self):
+        user = get_user_model().objects.create_user(username="coordenador")
+        profile = user.access_profile
+        profile.role = AccessProfile.Role.COORDINATOR
+
+        self.assertTrue(profile.can_access_module("assessments"))
