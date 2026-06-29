@@ -127,22 +127,222 @@
   }
 
   @media print {
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
     .navbar,
     .app-footer,
     .record-actions,
-    .record-filters {
+    .record-filters,
+    .screen-only,
+    .record-chip[href],
+    .record-hero::after,
+    .timeline::before,
+    .timeline-marker,
+    .icon-box,
+    .badge,
+    .btn {
       display: none !important;
     }
 
+    html,
     body {
       background: #fff !important;
+      color: #111827 !important;
+      font-size: 11pt;
     }
 
-    .record-hero,
-    .record-shell,
-    .evolution-card {
+    main {
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .section-pad {
+      padding: 0 !important;
+    }
+
+    .record-hero {
+      color: #111827 !important;
+      background: #fff !important;
+      border: 0 !important;
+      border-bottom: 2px solid #111827 !important;
+      border-radius: 0 !important;
+      margin: 0 0 10mm !important;
+      padding: 0 0 6mm !important;
       box-shadow: none !important;
-      border: 1px solid #d5dbe7 !important;
+      page-break-after: avoid;
+    }
+
+    .record-hero .d-flex {
+      display: block !important;
+    }
+
+    .record-hero .col-xl-7,
+    .record-hero .col-xl-5 {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .record-hero h1 {
+      color: #111827 !important;
+      font-size: 20pt !important;
+      margin: 0 0 2mm !important;
+    }
+
+    .record-hero .lead,
+    .hero-copy {
+      color: #374151 !important;
+      font-size: 11pt !important;
+      margin-bottom: 4mm !important;
+    }
+
+    .record-chip {
+      display: inline-block !important;
+      color: #111827 !important;
+      background: #fff !important;
+      border: 1px solid #d1d5db !important;
+      padding: 2mm 3mm !important;
+      margin: 0 2mm 2mm 0 !important;
+      border-radius: 4mm !important;
+      font-size: 9pt !important;
+    }
+
+    .record-stat {
+      display: inline-block !important;
+      width: 23% !important;
+      vertical-align: top !important;
+      color: #111827 !important;
+      background: #fff !important;
+      border: 1px solid #d1d5db !important;
+      border-radius: 0 !important;
+      padding: 3mm !important;
+      margin-right: 1% !important;
+    }
+
+    .record-stat .text-info,
+    .record-stat small,
+    .record-stat .text-white-50,
+    .record-stat .text-white {
+      color: #374151 !important;
+    }
+
+    .record-stat .h2 {
+      color: #111827 !important;
+      font-size: 17pt !important;
+      margin: 0 !important;
+    }
+
+    .row,
+    .col-xl-4,
+    .col-xl-8,
+    aside,
+    section {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .clinical-summary,
+    aside .soft-card,
+    .record-shell,
+    .evolution-card,
+    .evolution-section {
+      color: #111827 !important;
+      background: #fff !important;
+      border: 1px solid #d1d5db !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .clinical-summary {
+      margin: 0 0 7mm !important;
+      padding: 5mm !important;
+      page-break-inside: avoid;
+    }
+
+    aside .soft-card {
+      margin: 0 0 7mm !important;
+      padding: 5mm !important;
+      page-break-inside: avoid;
+    }
+
+    .clinical-summary h2,
+    aside .soft-card h2 {
+      font-size: 13pt !important;
+      margin-bottom: 4mm !important;
+    }
+
+    .section-kicker {
+      color: #111827 !important;
+      letter-spacing: .04em !important;
+      font-size: 8pt !important;
+    }
+
+    .text-muted-app,
+    .evolution-section .text-muted-app {
+      color: #374151 !important;
+    }
+
+    .timeline {
+      position: static !important;
+    }
+
+    .timeline-item {
+      padding-left: 0 !important;
+      margin-top: 0 !important;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .timeline-item + .timeline-item {
+      margin-top: 6mm !important;
+    }
+
+    .evolution-card {
+      padding: 5mm !important;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .evolution-card h2 {
+      font-size: 14pt !important;
+      margin-bottom: 1mm !important;
+    }
+
+    .evolution-section {
+      padding: 3mm !important;
+      margin-bottom: 3mm !important;
+    }
+
+    .evolution-section h3 {
+      font-size: 10.5pt !important;
+      margin-bottom: 1.5mm !important;
+    }
+
+    .evolution-section p,
+    .clinical-summary p,
+    .clinical-summary div,
+    aside .soft-card div,
+    aside .soft-card p {
+      font-size: 10pt !important;
+      line-height: 1.35 !important;
+    }
+
+    a[href]::after {
+      content: "" !important;
+    }
+
+    .print-document-title {
+      display: block !important;
     }
   }
 </style>
@@ -151,6 +351,9 @@
 {% block content %}
 <main class="container-fluid px-3 px-xl-4 section-pad pt-5">
   <section class="record-hero p-4 p-lg-5 mb-4">
+    <div class="print-document-title d-none">
+      <strong>PRONTUARIO - Registro clinico</strong>
+    </div>
     <div class="d-flex flex-column flex-xl-row justify-content-between gap-4">
       <div class="col-xl-7">
         <a class="record-chip text-decoration-none mb-3" href="{% url 'patients:detail' patient.pk %}">
@@ -237,7 +440,7 @@
         </div>
       </section>
 
-      <section class="soft-card p-4 mb-4">
+      <section class="soft-card screen-only p-4 mb-4">
         <h2 class="h5 fw-bold mb-3">Proximos passos</h2>
         {% if next_appointment %}
           <div class="border-bottom pb-3 mb-3">
