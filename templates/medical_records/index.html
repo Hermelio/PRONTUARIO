@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Prontuarios - PRONTUARIO{% endblock %}
+
+{% block content %}
+<main class="container-fluid px-3 px-xl-4 section-pad pt-5">
+  <section class="executive-panel p-4 p-lg-5 mb-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
+      <div>
+        <span class="hero-badge mb-3"><i class="bi bi-file-earmark-medical"></i> Prontuario eletronico</span>
+        <h1 class="display-6 fw-bold text-white mb-2">Central de prontuarios</h1>
+        <p class="hero-copy lead mb-0">Acesse a linha do tempo clinica, evolucoes e indicadores dos pacientes permitidos para seu perfil.</p>
+      </div>
+      <div class="row g-3 col-lg-5">
+        <div class="col-4">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Pacientes</div>
+            <div class="h2 text-white mb-0">{{ total_patients }}</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Com evolucao</div>
+            <div class="h2 text-white mb-0">{{ with_evolutions }}</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="metric-card-dark p-3">
+            <div class="small text-info fw-bold">Pendentes</div>
+            <div class="h2 text-white mb-0">{{ without_evolutions }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <form method="get" class="soft-card p-3 p-lg-4 mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-lg-10">
+        <label class="form-label fw-bold" for="record-search">Buscar prontuario</label>
+        <input id="record-search" class="form-control form-control-lg" type="search" name="q" value="{{ query }}" placeholder="Paciente, CPF, diagnostico ou profissional">
+      </div>
+      <div class="col-lg-2 d-grid">
+        <button class="btn btn-primary btn-lg" type="submit"><i class="bi bi-search me-2"></i>Buscar</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row g-4">
+    {% for patient in patients %}
+      <div class="col-lg-6 col-xxl-4">
+        <article class="soft-card module-card p-4 h-100">
+          <div class="d-flex justify-content-between gap-3 mb-3">
+            <div>
+              <h2 class="h4 fw-bold mb-1">{{ patient.full_name }}</h2>
+              <div class="text-muted-app small">
+                {% if patient.age %}{{ patient.age }} anos · {% endif %}
+                {{ patient.primary_diagnosis|default:"Diagnostico nao informado" }}
+              </div>
+            </div>
+            <span class="badge rounded-pill text-bg-primary align-self-start">{{ patient.evolution_count }}</span>
+          </div>
+          <div class="row g-2 small mb-4">
+            <div class="col-6"><i class="bi bi-journal-medical text-primary me-1"></i>{{ patient.evolution_count }} evolucoes</div>
+            <div class="col-6"><i class="bi bi-clipboard2-pulse text-primary me-1"></i>{{ patient.assessment_count }} avaliacoes</div>
+            <div class="col-6"><i class="bi bi-exclamation-triangle text-primary me-1"></i>{{ patient.incident_count }} intercorrencias</div>
+            <div class="col-6"><i class="bi bi-person-badge text-primary me-1"></i>{{ patient.assigned_professional|default:"Sem vinculo" }}</div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary px-4" href="{% url 'medical_records:patient_record' patient.pk %}">Abrir prontuario</a>
+            <a class="btn btn-light border px-4" href="{% url 'medical_records:evolution_create' patient.pk %}">Nova evolucao</a>
+          </div>
+        </article>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="soft-card p-5 text-center">
+          <i class="bi bi-search display-5 text-primary"></i>
+          <h2 class="h4 fw-bold mt-3">Nenhum prontuario encontrado</h2>
+          <p class="text-muted-app mb-0">Tente outro termo de busca ou verifique os pacientes vinculados ao seu perfil.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

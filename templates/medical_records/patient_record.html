@@ -1,66 +1,334 @@
 {% extends "base.html" %}
 
-{% block title %}Prontuario de {{ patient.full_name }}{% endblock %}
+{% block title %}Prontuario de {{ patient.full_name }} - PRONTUARIO{% endblock %}
+
+{% block extra_css %}
+<style>
+  .record-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 34px;
+    color: #e2e8f0;
+    background:
+      linear-gradient(135deg, rgba(15, 23, 42, .96), rgba(30, 64, 175, .88)),
+      radial-gradient(circle at top right, rgba(6, 182, 212, .34), transparent 24rem);
+    box-shadow: 0 34px 100px rgba(15, 23, 42, .24);
+  }
+
+  .record-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .14;
+    background-image:
+      linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px);
+    background-size: 58px 58px;
+    pointer-events: none;
+  }
+
+  .record-hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .record-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .5rem .75rem;
+    border-radius: 999px;
+    color: #dbeafe;
+    background: rgba(255, 255, 255, .09);
+    border: 1px solid rgba(255, 255, 255, .16);
+    font-size: .82rem;
+    font-weight: 800;
+  }
+
+  .record-shell {
+    border: 1px solid var(--app-border);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 26px 80px rgba(15, 23, 42, .1);
+    backdrop-filter: blur(18px);
+  }
+
+  .record-stat {
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 22px;
+    background: rgba(255,255,255,.09);
+  }
+
+  .clinical-summary {
+    border-radius: 26px;
+    background: linear-gradient(180deg, #fff, #f8fafc);
+    border: 1px solid var(--app-border);
+  }
+
+  .timeline {
+    position: relative;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 1.15rem;
+    top: .4rem;
+    bottom: .4rem;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(37, 99, 235, .45), rgba(6, 182, 212, .08));
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-left: 3.25rem;
+  }
+
+  .timeline-item + .timeline-item {
+    margin-top: 1.1rem;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: .48rem;
+    top: 1.4rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--app-primary), var(--app-cyan));
+    box-shadow: 0 0 0 8px rgba(37, 99, 235, .1);
+  }
+
+  .evolution-card {
+    border: 1px solid rgba(37, 99, 235, .12);
+    border-radius: 26px;
+    background: #fff;
+    box-shadow: 0 18px 55px rgba(15, 23, 42, .08);
+  }
+
+  .evolution-section {
+    padding: 1rem;
+    border-radius: 18px;
+    background: #f8fafc;
+  }
+
+  .record-action {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .52rem .72rem;
+    border-radius: 999px;
+    color: #0f172a;
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid var(--app-border);
+    font-weight: 800;
+    font-size: .82rem;
+  }
+
+  @media print {
+    .navbar,
+    .app-footer,
+    .record-actions,
+    .record-filters {
+      display: none !important;
+    }
+
+    body {
+      background: #fff !important;
+    }
+
+    .record-hero,
+    .record-shell,
+    .evolution-card {
+      box-shadow: none !important;
+      border: 1px solid #d5dbe7 !important;
+    }
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<main class="container section-pad pt-5">
-  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4 reveal is-visible">
-    <div>
-      <span class="eyebrow mb-3"><i class="bi bi-file-earmark-medical"></i> Prontuario eletronico</span>
-      <h1 class="display-6 fw-bold mb-1">{{ patient.full_name }}</h1>
-      <p class="text-muted-app mb-0">Historico clinico, evolucoes, filtros e base para impressao/PDF.</p>
-    </div>
-    <div class="d-flex flex-wrap gap-2">
-      <a href="{{ new_evolution_url }}" class="btn btn-primary px-4"><i class="bi bi-plus-lg me-2"></i>Nova evolucao</a>
-      <button class="btn btn-light border px-4" onclick="window.print()"><i class="bi bi-printer me-2"></i>Imprimir</button>
-      <button class="btn btn-light border px-4" disabled><i class="bi bi-filetype-pdf me-2"></i>PDF</button>
-    </div>
-  </div>
-
-  <form method="get" class="soft-card p-4 mb-4 reveal is-visible">
-    <div class="row g-3 align-items-end">
-      <div class="col-lg-4">{{ form.q.label_tag }}{{ form.q }}</div>
-      <div class="col-lg-3">{{ form.professional.label_tag }}{{ form.professional }}</div>
-      <div class="col-lg-2">{{ form.start_date.label_tag }}{{ form.start_date }}</div>
-      <div class="col-lg-2">{{ form.end_date.label_tag }}{{ form.end_date }}</div>
-      <div class="col-lg-1 d-grid"><button class="btn btn-primary" type="submit">Filtrar</button></div>
-    </div>
-  </form>
-
-  <div class="row g-4">
-    {% for evolution in evolutions %}
-      <div class="col-12">
-        <article class="soft-card p-4 reveal is-visible">
-          <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3">
-            <div>
-              <h2 class="h5 fw-bold mb-1">{{ evolution.date|date:"d/m/Y" }} as {{ evolution.time|time:"H:i" }}</h2>
-              <div class="text-muted-app small">{{ evolution.professional.full_name }}</div>
-            </div>
-            <span class="badge rounded-pill text-bg-primary align-self-md-start">Evolucao</span>
-          </div>
-          <p class="mb-3">{{ evolution.service_description }}</p>
-          {% if evolution.procedures_performed %}
-            <h3 class="h6 fw-bold">Procedimentos realizados</h3>
-            <p class="text-muted-app">{{ evolution.procedures_performed }}</p>
-          {% endif %}
-          {% if evolution.conduct %}
-            <h3 class="h6 fw-bold">Conduta</h3>
-            <p class="text-muted-app">{{ evolution.conduct }}</p>
-          {% endif %}
-          {% if evolution.notes %}
-            <h3 class="h6 fw-bold">Observacoes</h3>
-            <p class="text-muted-app mb-0">{{ evolution.notes }}</p>
-          {% endif %}
-        </article>
-      </div>
-    {% empty %}
-      <div class="col-12">
-        <div class="soft-card p-5 text-center">
-          <h2 class="h4 fw-bold">Nenhuma evolucao encontrada</h2>
-          <p class="text-muted-app mb-0">Crie a primeira evolucao clinica para este paciente.</p>
+<main class="container-fluid px-3 px-xl-4 section-pad pt-5">
+  <section class="record-hero p-4 p-lg-5 mb-4">
+    <div class="d-flex flex-column flex-xl-row justify-content-between gap-4">
+      <div class="col-xl-7">
+        <a class="record-chip text-decoration-none mb-3" href="{% url 'patients:detail' patient.pk %}">
+          <i class="bi bi-arrow-left"></i> Voltar para ficha
+        </a>
+        <h1 class="display-6 fw-bold text-white mb-2">{{ patient.full_name }}</h1>
+        <p class="hero-copy lead mb-3">
+          {{ patient.primary_diagnosis|default:"Diagnostico principal nao informado" }}
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          {% if patient.age %}<span class="record-chip"><i class="bi bi-person"></i>{{ patient.age }} anos</span>{% endif %}
+          <span class="record-chip"><i class="bi bi-person-badge"></i>{{ patient.assigned_professional|default:"Sem profissional vinculado" }}</span>
+          {% if patient.city %}<span class="record-chip"><i class="bi bi-geo-alt"></i>{{ patient.city }}{% if patient.state %}/{{ patient.state }}{% endif %}</span>{% endif %}
         </div>
       </div>
-    {% endfor %}
+      <div class="col-xl-5">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="record-stat p-3">
+              <div class="small text-info fw-bold">Evolucoes</div>
+              <div class="h2 text-white mb-0">{{ evolution_count }}</div>
+              <small class="text-white-50">historico clinico</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="record-stat p-3">
+              <div class="small text-info fw-bold">Avaliacoes</div>
+              <div class="h2 text-white mb-0">{{ assessment_count }}</div>
+              <small class="text-white-50">comparativos</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="record-stat p-3">
+              <div class="small text-info fw-bold">Documentos</div>
+              <div class="h2 text-white mb-0">{{ document_count }}</div>
+              <small class="text-white-50">anexos</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="record-stat p-3">
+              <div class="small text-info fw-bold">Agenda</div>
+              <div class="h2 text-white mb-0">{{ appointment_count }}</div>
+              <small class="text-white-50">atendimentos</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="row g-4">
+    <aside class="col-xl-4">
+      <div class="record-actions d-flex flex-wrap gap-2 mb-4">
+        <a href="{{ new_evolution_url }}" class="btn btn-primary px-4"><i class="bi bi-plus-lg me-2"></i>Nova evolucao</a>
+        <button class="btn btn-light border px-4" onclick="window.print()"><i class="bi bi-printer me-2"></i>Imprimir</button>
+        <a class="btn btn-light border px-4" href="{% url 'assessments:patient_indicators' patient.pk %}"><i class="bi bi-graph-up-arrow me-2"></i>Indicadores</a>
+      </div>
+
+      <section class="clinical-summary p-4 mb-4">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <span class="icon-box"><i class="bi bi-heart-pulse"></i></span>
+          <div>
+            <div class="section-kicker">Resumo clinico</div>
+            <h2 class="h5 fw-bold mb-0">Quadro atual</h2>
+          </div>
+        </div>
+        <div class="vstack gap-3 small">
+          <div>
+            <div class="fw-bold">Diagnosticos secundarios</div>
+            <div class="text-muted-app">{{ patient.secondary_diagnoses|default:"Nao informado" }}</div>
+          </div>
+          <div>
+            <div class="fw-bold">Comorbidades</div>
+            <div class="text-muted-app">{{ patient.comorbidities|default:"Nao informado" }}</div>
+          </div>
+          <div>
+            <div class="fw-bold">Alergias</div>
+            <div class="text-muted-app">{{ patient.allergies|default:"Nao informado" }}</div>
+          </div>
+          <div>
+            <div class="fw-bold">Medicamentos em uso</div>
+            <div class="text-muted-app">{{ patient.current_medications|default:"Nao informado" }}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="soft-card p-4 mb-4">
+        <h2 class="h5 fw-bold mb-3">Proximos passos</h2>
+        {% if next_appointment %}
+          <div class="border-bottom pb-3 mb-3">
+            <div class="fw-bold">{{ next_appointment.date|date:"d/m/Y" }} as {{ next_appointment.starts_at|time:"H:i" }}</div>
+            <div class="text-muted-app small">{{ next_appointment.professional }} · {{ next_appointment.get_appointment_type_display }}</div>
+          </div>
+        {% else %}
+          <p class="text-muted-app mb-3">Nenhum atendimento futuro encontrado.</p>
+        {% endif %}
+        {% if latest_assessment %}
+          <div class="border-bottom pb-3 mb-3">
+            <div class="fw-bold">Ultima avaliacao</div>
+            <div class="text-muted-app small">{{ latest_assessment.template.name }} · {{ latest_assessment.performed_at|date:"d/m/Y" }}</div>
+          </div>
+        {% endif %}
+        {% if last_incident %}
+          <div>
+            <div class="fw-bold">Ultima intercorrencia</div>
+            <div class="text-muted-app small">{{ last_incident.get_classification_display }} · {{ last_incident.date|date:"d/m/Y" }}</div>
+          </div>
+        {% endif %}
+      </section>
+    </aside>
+
+    <section class="col-xl-8">
+      <form method="get" class="record-shell record-filters p-3 p-lg-4 mb-4">
+        <div class="row g-3 align-items-end">
+          <div class="col-lg-4">{{ form.q.label_tag }}{{ form.q }}</div>
+          <div class="col-lg-3">{{ form.professional.label_tag }}{{ form.professional }}</div>
+          <div class="col-lg-2">{{ form.start_date.label_tag }}{{ form.start_date }}</div>
+          <div class="col-lg-2">{{ form.end_date.label_tag }}{{ form.end_date }}</div>
+          <div class="col-lg-1 d-grid"><button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button></div>
+        </div>
+      </form>
+
+      <div class="timeline">
+        {% for evolution in evolutions %}
+          <article class="timeline-item">
+            <span class="timeline-marker"></span>
+            <div class="evolution-card p-4 p-lg-5">
+              <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+                <div>
+                  <div class="section-kicker">{{ evolution.date|date:"d/m/Y" }} as {{ evolution.time|time:"H:i" }}</div>
+                  <h2 class="h4 fw-bold mb-1">Evolucao clinica</h2>
+                  <div class="text-muted-app small">
+                    {{ evolution.professional.full_name }}
+                    {% if evolution.appointment %} · Atendimento {{ evolution.appointment.starts_at|time:"H:i" }}{% endif %}
+                  </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2 align-self-lg-start">
+                  <span class="badge rounded-pill text-bg-primary">Prontuario</span>
+                  {% if evolution.appointment %}
+                    <span class="badge rounded-pill text-bg-light border text-dark">{{ evolution.appointment.get_status_display }}</span>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="evolution-section mb-3">
+                <h3 class="h6 fw-bold mb-2"><i class="bi bi-journal-text text-primary me-2"></i>Descricao do atendimento</h3>
+                <p class="mb-0">{{ evolution.service_description }}</p>
+              </div>
+              {% if evolution.procedures_performed %}
+                <div class="evolution-section mb-3">
+                  <h3 class="h6 fw-bold mb-2"><i class="bi bi-clipboard2-pulse text-primary me-2"></i>Procedimentos realizados</h3>
+                  <p class="text-muted-app mb-0">{{ evolution.procedures_performed }}</p>
+                </div>
+              {% endif %}
+              {% if evolution.conduct %}
+                <div class="evolution-section mb-3">
+                  <h3 class="h6 fw-bold mb-2"><i class="bi bi-signpost-split text-primary me-2"></i>Conduta</h3>
+                  <p class="text-muted-app mb-0">{{ evolution.conduct }}</p>
+                </div>
+              {% endif %}
+              {% if evolution.notes %}
+                <div class="evolution-section">
+                  <h3 class="h6 fw-bold mb-2"><i class="bi bi-chat-square-text text-primary me-2"></i>Observacoes</h3>
+                  <p class="text-muted-app mb-0">{{ evolution.notes }}</p>
+                </div>
+              {% endif %}
+            </div>
+          </article>
+        {% empty %}
+          <div class="record-shell p-5 text-center">
+            <i class="bi bi-journal-plus display-5 text-primary"></i>
+            <h2 class="h4 fw-bold mt-3">Nenhuma evolucao encontrada</h2>
+            <p class="text-muted-app mb-4">Crie a primeira evolucao clinica para iniciar a linha do tempo deste paciente.</p>
+            <a href="{{ new_evolution_url }}" class="btn btn-primary px-4">Nova evolucao</a>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
   </div>
 </main>
 {% endblock %}
