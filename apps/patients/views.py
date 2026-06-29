@@ -116,9 +116,17 @@ def patient_detail_view(request, pk):
     context = {
         "patient": patient,
         "appointments": patient.appointments.select_related("professional").order_by("-date", "-starts_at")[:8],
+        "attendance_records": (
+            patient.appointments
+            .select_related("professional")
+            .filter(attendance_record__isnull=False)
+            .select_related("attendance_record")
+            .order_by("-date", "-starts_at")[:4]
+        ),
         "evolutions": patient.clinical_evolutions.select_related("professional").order_by("-date", "-time")[:6],
         "documents": patient.documents.select_related("uploaded_by").order_by("-created_at")[:6],
         "incidents": patient.incidents.select_related("professional").order_by("-date", "-time")[:6],
         "assessments": patient.clinical_assessments.select_related("template", "professional").order_by("-performed_at")[:6],
+        "financial_entries": patient.financial_entries.select_related("professional").order_by("-reference_date")[:4],
     }
     return render(request, "patients/patient_detail.html", context)
