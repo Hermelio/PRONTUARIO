@@ -29,3 +29,37 @@ class AccountsFlowTests(TestCase):
 
         self.assertContains(response, "Financeiro")
         self.assertNotContains(response, "Prontuario")
+
+    def test_authenticated_login_redirects_to_portal(self):
+        get_user_model().objects.create_user(username="logado", password="senha-forte")
+        self.client.login(username="logado", password="senha-forte")
+
+        response = self.client.get(reverse("accounts:login"))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], reverse("accounts:portal"))
+
+    def test_authenticated_navigation_hides_public_sales_links(self):
+        user = get_user_model().objects.create_user(username="profissional", password="senha-forte")
+        profile = user.access_profile
+        profile.role = AccessProfile.Role.PROFESSIONAL
+        profile.save()
+        self.client.login(username="profissional", password="senha-forte")
+
+        response = self.client.get(reverse("accounts:portal"))
+
+        self.assertContains(response, "Ambiente operacional")
+        self.assertContains(response, "Inicio")
+        self.assertNotContains(response, "Modulos")
+        self.assertNotContains(response, "Seguranca")
+
+    def test_staff_professional_does_not_see_admin_shortcut(self):
+        user = get_user_model().objects.create_user(username="staff-prof", password="senha-forte", is_staff=True)
+        profile = user.access_profile
+        profile.role = AccessProfile.Role.PROFESSIONAL
+        profile.save()
+        self.client.login(username="staff-prof", password="senha-forte")
+
+        response = self.client.get(reverse("accounts:portal"))
+
+        self.assertNotContains(response, 'href="/admin/"')
